@@ -1,0 +1,1 @@
+# app-skeleton-vertx-postgres
