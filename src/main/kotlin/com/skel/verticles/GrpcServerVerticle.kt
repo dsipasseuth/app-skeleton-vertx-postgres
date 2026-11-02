@@ -19,10 +19,10 @@ class GrpcServerVerticle(private val bowService: BowServiceService) : AbstractVe
     vertx
         .createHttpServer()
         .requestHandler(grpcServer)
-        .listen(8080)
+        .listen(9000)
         .onFailure(promise::fail)
         .onSuccess {
-          println("gRPC server started on port 8080")
+          println("gRPC server started on port 9000")
           promise.complete()
         }
   }
