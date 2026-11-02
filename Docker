@@ -1,0 +1,27 @@
+FROM eclipse-temurin:25-jdk-jammy AS builder
+WORKDIR /app
+
+# Copy dependency configuration files first to leverage Docker layer caching
+COPY build.gradle.kts settings.gradle.kts gradlew ./
+COPY gradle gradle/
+
+# Download dependencies (this layer will be cached unless build files change)
+RUN ./gradlew dependencies --no-daemon
+
+# Copy the rest of the source code
+COPY src src/
+
+# Build the fat JAR
+RUN ./gradlew assemble --no-daemon
+
+FROM eclipse-temurin:25-jre-jammy
+WORKDIR /app
+
+# Copy the built fat JAR from the builder stage
+COPY --from=builder /app/build/libs/*-fat.jar app.jar
+
+# Expose your gRPC / HTTP port
+EXPOSE 8080
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]

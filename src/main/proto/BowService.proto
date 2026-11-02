@@ -1,0 +1,30 @@
+syntax = "proto3";
+option java_package = "com.skel.services.bowservice";
+option java_multiple_files = true;
+option java_outer_classname = "BowServiceProto";
+
+service BowService {
+  // List all known bows
+  rpc ListBow (ListBowRequest) returns (stream Bow) {}
+}
+
+// Request for a list of bows.
+message ListBowRequest {
+  BowType bow_type = 1;
+}
+
+// Represent a bow.
+message Bow {
+  int32 draw_length = 1;
+  int32 draw_weight = 2;
+  BowType bow_type = 3;
+}
+
+// List of known bow types.
+enum BowType {
+  UNKNOWN = 0;
+  OLYMPIC_RECURVE = 1;
+  RECURVE = 2;
+  COMPOUND = 3;
+  LONGBOW = 4;
+}

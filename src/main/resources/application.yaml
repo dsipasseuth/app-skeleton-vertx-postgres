@@ -1,0 +1,6 @@
+datasources:
+  default:
+    url: postgresql://localhost:5432/skel_db
+    username: postgres
+    password: password
+    dialect: POSTGRES
